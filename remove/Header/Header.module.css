@@ -1,0 +1,6 @@
+.nav {
+  background-color: aquamarine;
+}
+.nav:hover {
+  display: flex;
+}
