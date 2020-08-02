@@ -17,9 +17,10 @@ export default () => (
     <Switch>
       <Route path="/" exact component={Home} />
       <Route path="/tv" component={TV} />
-      <Route path="/tv/popular" render={() => <h1>popular</h1>} />
-      <Route path="/detail" component={Detail} />
+      {/* <Route path="/tv/popular" render={() => <h1>popular</h1>} /> */}
       <Route path="/search" component={Search} />
+      <Route path="/movie/:id" component={Detail} />
+      <Route path="/show/:id" component={Detail} />
       <Redirect from="*" to="/" />
     </Switch>
   </Router>

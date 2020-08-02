@@ -43,7 +43,7 @@ const HeaderC = ({ location: { pathname } }) => (
       <Item current={pathname === "/tv"}>
         <SLink to="/tv">TV</SLink>
       </Item>
-      <Item current={pathname === "/search"}>
+      <Item cunrrent={pathname === "/search"}>
         <SLink to="/search">Search</SLink>
       </Item>
     </List>
