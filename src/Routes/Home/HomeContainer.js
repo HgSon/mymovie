@@ -22,7 +22,7 @@ class HomeContainer extends React.Component {
       } = await movieApi.popular();
       this.setState({ nowPlaying, upcoming, popular });
     } catch (error) {
-      this.setState({ error });
+      this.setState({ error: `${error}` });
     } finally {
       this.setState({ loading: false });
     }

@@ -11,11 +11,13 @@ export default class extends React.Component {
     error: null,
   };
 
-  handleSubmit() {
+  handleSubmit = (event) => {
+    event.preventDefault();
     const { searchTerm } = this.state;
     if (searchTerm !== "") this.searchByTerm();
-  }
+  };
   searchByTerm = async () => {
+    throw Error("error is occured");
     const { searchTerm } = this.state;
     this.setState({ loading: true });
     try {
@@ -32,6 +34,12 @@ export default class extends React.Component {
       this.setState({ loading: false });
     }
   };
+  updateTerm = (event) => {
+    const {
+      target: { value },
+    } = event;
+    this.setState({ searchTerm: value });
+  };
   render() {
     const { movieResults, tvResults, loading, error, searchTerm } = this.state;
     return (
@@ -42,6 +50,8 @@ export default class extends React.Component {
         error={error}
         searchTerm={searchTerm}
         handleSubmit={this.handleSubmit}
+        searchByTerm={this.searchByTerm}
+        updateTerm={this.updateTerm}
       />
     );
   }
