@@ -24,6 +24,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
               title,
               vote_average,
               release_date,
+              genre_ids,
             } = movie;
             return (
               <Poster
@@ -34,6 +35,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
                 rating={vote_average}
                 year={release_date && release_date.substring(0, 4)}
                 isMovie={true}
+                genreIds={genre_ids}
               />
             );
           })}
