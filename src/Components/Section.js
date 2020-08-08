@@ -20,12 +20,15 @@ const Grid = styled.div`
   grid-gap: 20px;
 `;
 
-const Section = ({ title, children }) => (
-  <Container>
-    <Title>{title}</Title>
-    <Grid>{children}</Grid>
-  </Container>
-);
+const Section = ({ id, title, children }) => {
+  children.sort((a, b) => b.props.rating - a.props.rating);
+  return (
+    <Container id={id}>
+      <Title>{title}</Title>
+      <Grid>{children}</Grid>
+    </Container>
+  );
+};
 
 Section.propTypes = {
   title: PropTypes.string.isRequired,

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import Section from "Components/Section";
 import Loader from "Components/Loader";
 import Message from "Components/Message";
@@ -10,7 +10,14 @@ const Container = styled.div`
   padding: 0 10px;
 `;
 
-const TvPresenter = ({ topRated, airingToday, popular, loading, error }) =>
+const TvPresenter = ({
+  genreList,
+  topRated,
+  airingToday,
+  popular,
+  loading,
+  error,
+}) =>
   loading ? (
     <Loader />
   ) : (
@@ -24,9 +31,12 @@ const TvPresenter = ({ topRated, airingToday, popular, loading, error }) =>
               name,
               vote_average,
               first_air_date,
+              genre_ids,
             } = show;
             return (
               <Poster
+                genreIds={genre_ids}
+                genreList={genreList}
                 key={id}
                 id={id}
                 imageUrl={poster_path}
@@ -46,10 +56,13 @@ const TvPresenter = ({ topRated, airingToday, popular, loading, error }) =>
               poster_path,
               name,
               vote_average,
+              genre_ids,
               first_air_date,
             } = show;
             return (
               <Poster
+                genreIds={genre_ids}
+                genreList={genreList}
                 key={id}
                 id={id}
                 imageUrl={poster_path}
@@ -65,6 +78,7 @@ const TvPresenter = ({ topRated, airingToday, popular, loading, error }) =>
         <Section title="Airing Today">
           {airingToday.map((show) => {
             const {
+              genre_ids,
               id,
               poster_path,
               name,
@@ -73,6 +87,8 @@ const TvPresenter = ({ topRated, airingToday, popular, loading, error }) =>
             } = show;
             return (
               <Poster
+                genreIds={genre_ids}
+                genreList={genreList}
                 key={id}
                 id={id}
                 imageUrl={poster_path}
@@ -89,11 +105,12 @@ const TvPresenter = ({ topRated, airingToday, popular, loading, error }) =>
   );
 
 TvPresenter.propTypes = {
-  topRated: propTypes.array,
-  airingToday: propTypes.array,
-  popular: propTypes.array,
-  loading: propTypes.bool.isRequired,
-  error: propTypes.string,
+  topRated: PropTypes.array,
+  airingToday: PropTypes.array,
+  popular: PropTypes.array,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  genreList: PropTypes.object,
 };
 
 export default TvPresenter;

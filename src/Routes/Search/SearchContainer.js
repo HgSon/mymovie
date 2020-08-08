@@ -10,6 +10,8 @@ export default class extends React.Component {
     staticTerm: "",
     loading: false,
     error: null,
+    movieGenresList: null,
+    showGenresList: null,
   };
 
   handleSubmit = (event) => {
@@ -28,7 +30,22 @@ export default class extends React.Component {
       const {
         data: { results: tvResults },
       } = await tvApi.search(searchTerm);
-      this.setState({ movieResults, tvResults });
+      const {
+        data: { genres: genresMovie },
+      } = await movieApi.movieGenres();
+      const {
+        data: { genres: genresShow },
+      } = await tvApi.showGenres();
+      let movieGenresList = {};
+      let showGenresList = {};
+      genresMovie.forEach((v) => (movieGenresList[v.id] = v.name));
+      genresShow.forEach((v) => (showGenresList[v.id] = v.name));
+      this.setState({
+        movieGenresList,
+        showGenresList,
+        movieResults,
+        tvResults,
+      });
     } catch (error) {
       this.setState({ error: `${error}` });
     } finally {
@@ -49,6 +66,8 @@ export default class extends React.Component {
       error,
       searchTerm,
       staticTerm,
+      showGenresList,
+      movieGenresList,
     } = this.state;
     return (
       <SearchPresenter
@@ -61,6 +80,8 @@ export default class extends React.Component {
         searchByTerm={this.searchByTerm}
         updateTerm={this.updateTerm}
         staticTerm={staticTerm}
+        showGenresList={showGenresList}
+        movieGenresList={movieGenresList}
       />
     );
   }

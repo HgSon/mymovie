@@ -5,10 +5,7 @@ const api = axios.create({
   params: { api_key: "2867ad43a6f4955f1b44469f1dc053be", language: "en-US" },
 });
 export const movieApi = {
-  nowPlaying: () => {
-    console.log(process.env.API_KEY);
-    return api.get("movie/now_playing");
-  },
+  nowPlaying: () => api.get("movie/now_playing"),
   upcoming: () => api.get("movie/upcoming"),
   popular: () => api.get("movie/popular"),
   movieDetail: (id) =>

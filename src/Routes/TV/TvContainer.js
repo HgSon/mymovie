@@ -9,6 +9,7 @@ class TvContainer extends React.Component {
     popular: null,
     loading: true,
     error: null,
+    genreList: null,
   };
   async componentDidMount() {
     try {
@@ -21,7 +22,12 @@ class TvContainer extends React.Component {
       const {
         data: { results: popular },
       } = await tvApi.popular();
-      this.setState({ topRated, airingToday, popular });
+      const {
+        data: { genres },
+      } = await tvApi.showGenres();
+      let genreList = {};
+      genres.forEach((v) => (genreList[v.id] = v.name));
+      this.setState({ genreList, topRated, airingToday, popular });
     } catch (error) {
       this.setState({ error: `${error}` });
     } finally {
@@ -29,9 +35,17 @@ class TvContainer extends React.Component {
     }
   }
   render() {
-    const { topRated, airingToday, popular, loading, error } = this.state;
+    const {
+      genreList,
+      topRated,
+      airingToday,
+      popular,
+      loading,
+      error,
+    } = this.state;
     return (
       <TvPresenter
+        genreList={genreList}
         topRated={topRated}
         airingToday={airingToday}
         popular={popular}

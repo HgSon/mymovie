@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import Loader from "Components/Loader";
 import Section from "Components/Section";
 import Message from "Components/Message";
@@ -28,6 +28,8 @@ const SearchPresenter = ({
   handleSubmit,
   updateTerm,
   staticTerm,
+  movieGenresList,
+  showGenresList,
 }) => (
   <Container>
     <Form onSubmit={handleSubmit}>
@@ -50,6 +52,7 @@ const SearchPresenter = ({
                 title,
                 vote_average,
                 release_date,
+                genre_ids,
               } = movie;
               return (
                 <Poster
@@ -60,6 +63,8 @@ const SearchPresenter = ({
                   rating={vote_average}
                   year={release_date && release_date.substring(0, 4)}
                   isMovie={true}
+                  genreIds={genre_ids}
+                  genreList={movieGenresList}
                 />
               );
             })}
@@ -74,6 +79,7 @@ const SearchPresenter = ({
                 name,
                 vote_average,
                 first_air_date,
+                genre_ids,
               } = show;
               return (
                 <Poster
@@ -83,6 +89,8 @@ const SearchPresenter = ({
                   title={name}
                   rating={vote_average}
                   year={first_air_date && first_air_date.substring(0, 4)}
+                  genreIds={genre_ids}
+                  genreList={showGenresList}
                 />
               );
             })}
@@ -94,7 +102,7 @@ const SearchPresenter = ({
           movieResults.length === 0 && (
             <Message
               text={`Nothing Found for "${staticTerm}"`}
-              color="#83D6DE"
+              color="#7f8c8d"
             />
           )}
         {error && <Message text={error} color="#e74c3c" />}
@@ -104,14 +112,16 @@ const SearchPresenter = ({
 );
 
 SearchPresenter.propTypes = {
-  movieResults: propTypes.array,
-  tvResults: propTypes.array,
-  loading: propTypes.bool.isRequired,
-  error: propTypes.string,
-  searchTerm: propTypes.string,
-  handleSubmit: propTypes.func.isRequired,
-  updateTerm: propTypes.func.isRequired,
-  staticTerm: propTypes.string,
+  movieResults: PropTypes.array,
+  tvResults: PropTypes.array,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  searchTerm: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  updateTerm: PropTypes.func.isRequired,
+  staticTerm: PropTypes.string,
+  movieGenresList: PropTypes.object,
+  showGenresList: PropTypes.object,
 };
 
 export default SearchPresenter;

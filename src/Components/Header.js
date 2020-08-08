@@ -19,13 +19,23 @@ const Header = styled.header`
 const List = styled.ul`
   display: flex;
 `;
+const SubList = styled.ul`
+  width: 240px;
+  height: 40px;
+  display: flex;
+  position: absolute;
+  top: -99999999px;
+  left: 10px;
+`;
 const Item = styled.li`
   width: 80px;
   height: 50px;
   text-align: center;
-  border-bottom: 4px solid
-    ${(props) => (props.current ? "#2c82c9" : "transparent")};
-  transition: border-bottom 0.4s ease-in-out;
+  background: ${(props) => (props.current ? "#c0392b" : "transparent")};
+  transition: background 0.4s ease-in-out;
+  &:hover ${SubList} {
+    top: ${(props) => (props.current ? "50px" : "-99999999px")};
+  }
 `;
 const SLink = styled(Link)`
   height: 50px;
@@ -33,34 +43,52 @@ const SLink = styled(Link)`
   align-items: center;
   justify-content: center;
 `;
-const SubList = styled.ul``;
-const SubItem = styled.li``;
 
-const HeaderC = ({ location: { pathname } }) => (
-  <Header>
-    <List>
-      <Item current={pathname === "/"}>
-        <SLink to="/">Movie</SLink>
-        <SubList>
-          <SubItem>
-            <Link to="#">Now Playing</Link>
-          </SubItem>
-          <SubItem>
-            <Link to="#">Now Playing</Link>
-          </SubItem>
-          <SubItem>
-            <Link to="#">Now Playing</Link>
-          </SubItem>
-        </SubList>
-      </Item>
-      <Item current={pathname === "/tv"}>
-        <SLink to="/tv">TV</SLink>
-      </Item>
-      <Item cunrrent={pathname === "/search"}>
-        <SLink to="/search">Search</SLink>
-      </Item>
-    </List>
-  </Header>
-);
+const SubItem = styled.li`
+  width: 80px;
+  height: 100%;
+  line-height: 22px;
+  text-align: center;
+`;
+
+const HeaderC = ({ location: { pathname } }) => {
+  return (
+    <Header>
+      <List>
+        <Item current={pathname === "/"}>
+          <SLink to="/">Movie</SLink>
+          <SubList>
+            <SubItem>
+              <Link to="#movieNowplaying">Now Playing</Link>
+            </SubItem>
+            <SubItem>
+              <Link to="#movieUpcoming">Upcoming</Link>
+            </SubItem>
+            <SubItem>
+              <Link to="#">Popular</Link>
+            </SubItem>
+          </SubList>
+        </Item>
+        <Item current={pathname === "/tv"}>
+          <SLink to="/tv">TV</SLink>
+          <SubList>
+            <SubItem>
+              <Link to="#">Top Rated</Link>
+            </SubItem>
+            <SubItem>
+              <Link to="#">Popular</Link>
+            </SubItem>
+            <SubItem>
+              <Link to="#">Airing Today</Link>
+            </SubItem>
+          </SubList>
+        </Item>
+        <Item current={pathname === "/search"}>
+          <SLink to="/search">Search</SLink>
+        </Item>
+      </List>
+    </Header>
+  );
+};
 
 export default withRouter(HeaderC);

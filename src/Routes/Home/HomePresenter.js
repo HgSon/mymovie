@@ -10,13 +10,20 @@ const Container = styled.div`
   padding: 0px 10px;
 `;
 
-const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
+const HomePresenter = ({
+  genreList,
+  nowPlaying,
+  upcoming,
+  popular,
+  loading,
+  error,
+}) =>
   loading ? (
     <Loader />
   ) : (
     <Container>
       {nowPlaying && nowPlaying.length > 0 && (
-        <Section title="Now Playing">
+        <Section title="Now Playing" id="MovieNowplaying">
           {nowPlaying.map((movie) => {
             const {
               id,
@@ -36,13 +43,14 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
                 year={release_date && release_date.substring(0, 4)}
                 isMovie={true}
                 genreIds={genre_ids}
+                genreList={genreList}
               />
             );
           })}
         </Section>
       )}
       {upcoming && upcoming.length > 0 && (
-        <Section title="Upcoming">
+        <Section title="Upcoming" id="MovieUpcoming">
           {upcoming.map((movie) => {
             const {
               id,
@@ -50,6 +58,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
               title,
               vote_average,
               release_date,
+              genre_ids,
             } = movie;
             return (
               <Poster
@@ -60,13 +69,15 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
                 rating={vote_average}
                 year={release_date && release_date.substring(0, 4)}
                 isMovie={true}
+                genreIds={genre_ids}
+                genreList={genreList}
               />
             );
           })}
         </Section>
       )}
       {popular && popular.length > 0 && (
-        <Section title="Popular">
+        <Section title="Popular" id="moviePopular">
           {popular.map((movie) => {
             const {
               id,
@@ -74,6 +85,7 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
               title,
               vote_average,
               release_date,
+              genre_ids,
             } = movie;
             return (
               <Poster
@@ -84,6 +96,8 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
                 rating={vote_average}
                 year={release_date && release_date.substring(0, 4)}
                 isMovie={true}
+                genreIds={genre_ids}
+                genreList={genreList}
               />
             );
           })}
@@ -99,6 +113,7 @@ HomePresenter.propTypes = {
   popular: PropTypes.array,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string,
+  genreList: PropTypes.object,
 };
 
 export default HomePresenter;

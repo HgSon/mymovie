@@ -9,7 +9,7 @@ const Container = styled.div`
   margin-top: 50px;
   font-size: 24px;
   font-weight: 600;
-  color: #2c82c9;
+  color: #d35400;
 `;
 
 export default () => {
