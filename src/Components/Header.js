@@ -33,12 +33,25 @@ const SLink = styled(Link)`
   align-items: center;
   justify-content: center;
 `;
+const SubList = styled.ul``;
+const SubItem = styled.li``;
 
 const HeaderC = ({ location: { pathname } }) => (
   <Header>
     <List>
       <Item current={pathname === "/"}>
-        <SLink to="/">Home</SLink>
+        <SLink to="/">Movie</SLink>
+        <SubList>
+          <SubItem>
+            <Link to="#">Now Playing</Link>
+          </SubItem>
+          <SubItem>
+            <Link to="#">Now Playing</Link>
+          </SubItem>
+          <SubItem>
+            <Link to="#">Now Playing</Link>
+          </SubItem>
+        </SubList>
       </Item>
       <Item current={pathname === "/tv"}>
         <SLink to="/tv">TV</SLink>
