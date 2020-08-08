@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
+import SortBy from "Components/SortBy";
 
 const Header = styled.header`
   color: white;
