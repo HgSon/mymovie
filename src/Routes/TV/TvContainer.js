@@ -23,7 +23,7 @@ class TvContainer extends React.Component {
       } = await tvApi.popular();
       this.setState({ topRated, airingToday, popular });
     } catch (error) {
-      this.setState({ error });
+      this.setState({ error: `${error}` });
     } finally {
       this.setState({ loading: false });
     }

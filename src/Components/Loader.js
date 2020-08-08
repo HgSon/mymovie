@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const Container = styled.div`
   width: 100vw;
@@ -7,12 +7,29 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 50px;
-  font-size: 32px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c82c9;
 `;
-export default () => (
-  <Container>
-    <span role="img" aria-label="loader">
-      ⏲
-    </span>
-  </Container>
-);
+
+export default () => {
+  const [text, setText] = useState("LOADING");
+  useEffect(() => {
+    let time = 0;
+    setInterval(() => {
+      if (time >= 3) {
+        setText("LOADING");
+        time = 0;
+      } else {
+        setText((text) => text + ".");
+        time++;
+      }
+    }, 200);
+  }, []);
+
+  return (
+    <Container>
+      <span>{text}</span>
+    </Container>
+  );
+};

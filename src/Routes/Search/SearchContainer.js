@@ -7,6 +7,7 @@ export default class extends React.Component {
     movieResults: null,
     tvResults: null,
     searchTerm: "",
+    staticTerm: "",
     loading: false,
     error: null,
   };
@@ -19,6 +20,7 @@ export default class extends React.Component {
   searchByTerm = async () => {
     const { searchTerm } = this.state;
     this.setState({ loading: true });
+    this.setState({ staticTerm: searchTerm });
     try {
       const {
         data: { results: movieResults },
@@ -28,7 +30,7 @@ export default class extends React.Component {
       } = await tvApi.search(searchTerm);
       this.setState({ movieResults, tvResults });
     } catch (error) {
-      this.setState({ error });
+      this.setState({ error: `${error}` });
     } finally {
       this.setState({ loading: false });
     }
@@ -40,7 +42,14 @@ export default class extends React.Component {
     this.setState({ searchTerm: value });
   };
   render() {
-    const { movieResults, tvResults, loading, error, searchTerm } = this.state;
+    const {
+      movieResults,
+      tvResults,
+      loading,
+      error,
+      searchTerm,
+      staticTerm,
+    } = this.state;
     return (
       <SearchPresenter
         movieResults={movieResults}
@@ -51,6 +60,7 @@ export default class extends React.Component {
         handleSubmit={this.handleSubmit}
         searchByTerm={this.searchByTerm}
         updateTerm={this.updateTerm}
+        staticTerm={staticTerm}
       />
     );
   }
