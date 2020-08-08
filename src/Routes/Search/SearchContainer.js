@@ -17,7 +17,6 @@ export default class extends React.Component {
     if (searchTerm !== "") this.searchByTerm();
   };
   searchByTerm = async () => {
-    throw Error("error is occured");
     const { searchTerm } = this.state;
     this.setState({ loading: true });
     try {
