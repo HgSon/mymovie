@@ -1,4 +1,5 @@
-import DetailPresenter from "./DetailPresenter";
+import MoviePresenter from "./MoviePresenter";
+import ShowPresenter from "./ShowPresenter";
 import React from "react";
 import { movieApi, tvApi } from "api";
 
@@ -23,7 +24,6 @@ class DetailContainer extends React.Component {
         params: { id },
       },
     } = this.props;
-    // const parsedId = parseInt(id) ?
     if (isNaN(id)) {
       return push("/");
     }
@@ -33,7 +33,7 @@ class DetailContainer extends React.Component {
       ({ data: result } = isMovie
         ? await movieApi.movieDetail(id)
         : await tvApi.showDetail(id));
-      console.log(result);
+      this.setState({ result });
     } catch {
       this.setState({ error: "can't find anything" });
     } finally {
@@ -41,8 +41,12 @@ class DetailContainer extends React.Component {
     }
   }
   render() {
-    const { result, loading, error } = this.state;
-    return <DetailPresenter result={result} loading={loading} error={error} />;
+    const { result, loading, error, isMovie } = this.state;
+    return isMovie ? (
+      <MoviePresenter result={result} loading={loading} error={error} />
+    ) : (
+      <ShowPresenter result={result} loading={loading} error={error} />
+    );
   }
 }
 

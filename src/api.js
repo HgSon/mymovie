@@ -9,10 +9,11 @@ export const movieApi = {
   upcoming: () => api.get("movie/upcoming"),
   popular: () => api.get("movie/popular"),
   movieDetail: (id) =>
-    api.get(`movie/${id}`, { params: { append_to_response: "video" } }),
+    api.get(`movie/${id}`, { params: { append_to_response: "videos" } }),
   search: (term) =>
     api.get(`search/movie`, { params: { query: encodeURIComponent(term) } }),
   movieGenres: () => api.get("genre/movie/list"),
+  movieCollection: (id) => api.get(`collection/${id}`),
 };
 
 export const tvApi = {
@@ -20,7 +21,7 @@ export const tvApi = {
   popular: () => api.get("tv/popular"),
   airingToday: () => api.get("tv/airing_today"),
   showDetail: (id) =>
-    api.get(`tv/${id}`, { params: { append_to_response: "video" } }),
+    api.get(`tv/${id}`, { params: { append_to_response: "videos" } }),
   search: (term) => api.get("search/tv", { params: { query: term } }),
   showGenres: () => api.get("genre/tv/list"),
 };

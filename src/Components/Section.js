@@ -22,6 +22,10 @@ const Grid = styled.div`
 
 const Section = ({ id, title, children }) => {
   children.sort((a, b) => b.props.rating - a.props.rating);
+  children.sort((a, b) => b.props.year - a.props.year);
+  //title은 필요없을듯. search하면되니까.
+  //장르별.
+
   return (
     <Container id={id}>
       <Title>{title}</Title>

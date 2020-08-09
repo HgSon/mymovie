@@ -89,7 +89,7 @@ const Poster = ({
           {genres && (
             <ul>
               {genres.map((genre) => (
-                <li key={genre}>{genre}</li>
+                <li key={`${id}${isMovie}`}>{genre}</li>
               ))}
             </ul>
           )}
