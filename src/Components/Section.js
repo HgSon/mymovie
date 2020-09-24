@@ -1,4 +1,5 @@
 import React from "react";
+import Poster from "./Poster";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -20,22 +21,52 @@ const Grid = styled.div`
   grid-gap: 20px;
 `;
 
-const Section = ({ id, title, children }) => {
-  children.sort((a, b) => b.props.rating - a.props.rating);
-  children.sort((a, b) => b.props.year - a.props.year);
-  //title은 필요없을듯. search하면되니까.
-  //장르별.
+const Section = ({ title, content, genreList, id }) => (
+  <SectionBox title={title} id={id}>
+    {content.map((movie) => {
+      console.log(content);
+      const {
+        id,
+        poster_path,
+        title,
+        vote_average,
+        release_date,
+        genre_ids,
+      } = movie;
+      return (
+        <Poster
+          key={id}
+          id={id}
+          imageUrl={poster_path}
+          title={title}
+          rating={vote_average}
+          year={release_date && release_date.substring(0, 4)}
+          isMovie={true}
+          genreIds={genre_ids}
+          genreList={genreList}
+        />
+      );
+    })}
+  </SectionBox>
+);
 
-  return (
-    <Container id={id}>
-      <Title>{title}</Title>
-      <Grid>{children}</Grid>
-    </Container>
-  );
-};
+const SectionBox = ({ id, title, children }) => (
+  <Container id={id}>
+    <Title>{title}</Title>
+    <Grid>{children}</Grid>
+  </Container>
+);
 
 Section.propTypes = {
   title: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  content: PropTypes.array.isRequired,
+  genreList: PropTypes.array,
+};
+
+SectionBox.propTypes = {
+  title: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

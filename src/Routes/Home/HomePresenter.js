@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import Section from "Components/Section";
 import Loader from "../../Components/Loader";
 import Message from "../../Components/Message";
-import Poster from "../../Components/Poster";
-import SortBy from "Components/SortBy";
 
 const Container = styled.div`
   padding: 0px 10px;
@@ -23,87 +21,29 @@ const HomePresenter = ({
     <Loader />
   ) : (
     <Container>
-      <SortBy />
       {nowPlaying && nowPlaying.length > 0 && (
-        <Section title="Now Playing" id="MovieNowplaying">
-          {nowPlaying.map((movie) => {
-            const {
-              id,
-              poster_path,
-              title,
-              vote_average,
-              release_date,
-              genre_ids,
-            } = movie;
-            return (
-              <Poster
-                key={id}
-                id={id}
-                imageUrl={poster_path}
-                title={title}
-                rating={vote_average}
-                year={release_date && release_date.substring(0, 4)}
-                isMovie={true}
-                genreIds={genre_ids}
-                genreList={genreList}
-              />
-            );
-          })}
-        </Section>
+        <Section
+          title="Now Playing"
+          id="movieNowplaying"
+          content={nowPlaying}
+          genreList={genreList}
+        />
       )}
       {upcoming && upcoming.length > 0 && (
-        <Section title="Upcoming" id="MovieUpcoming">
-          {upcoming.map((movie) => {
-            const {
-              id,
-              poster_path,
-              title,
-              vote_average,
-              release_date,
-              genre_ids,
-            } = movie;
-            return (
-              <Poster
-                key={id}
-                id={id}
-                imageUrl={poster_path}
-                title={title}
-                rating={vote_average}
-                year={release_date && release_date.substring(0, 4)}
-                isMovie={true}
-                genreIds={genre_ids}
-                genreList={genreList}
-              />
-            );
-          })}
-        </Section>
+        <Section
+          title="Upcoming"
+          id="movieUpcoming"
+          content={upcoming}
+          genreList={genreList}
+        />
       )}
       {popular && popular.length > 0 && (
-        <Section title="Popular" id="moviePopular">
-          {popular.map((movie) => {
-            const {
-              id,
-              poster_path,
-              title,
-              vote_average,
-              release_date,
-              genre_ids,
-            } = movie;
-            return (
-              <Poster
-                key={id}
-                id={id}
-                imageUrl={poster_path}
-                title={title}
-                rating={vote_average}
-                year={release_date && release_date.substring(0, 4)}
-                isMovie={true}
-                genreIds={genre_ids}
-                genreList={genreList}
-              />
-            );
-          })}
-        </Section>
+        <Section
+          title="Popular"
+          id="moviePopular"
+          genreList={genreList}
+          content={popular}
+        />
       )}
       {error && <Message text={error} color="#e74c3c" />}
     </Container>

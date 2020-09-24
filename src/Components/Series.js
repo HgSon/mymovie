@@ -5,7 +5,7 @@ import { movieApi } from "../api";
 import { Link } from "react-router-dom";
 
 const SeriesContainer = styled.div``;
-const Poster = styled.div``;
+const GotoMovie = styled.div``;
 
 const Series = ({ isMovie, collection }) => {
   const [series, setSeries] = useState(null);
@@ -21,21 +21,15 @@ const Series = ({ isMovie, collection }) => {
     };
     getCollection();
   }, []);
-  console.log(series);
   return (
     series && (
       <SeriesContainer>
         {series.map((video) => (
-          <Link
-            key={Math.random()}
-            to={isMovie ? `/movie/${video.id}` : `/show/${video.id}`}
+          <GotoMovie
+            bgUrl={`https://image.tmdb.org/t/p/w300${video.poster_path}`}
           >
-            <Poster
-              bgUrl={`https://image.tmdb.org/t/p/w300${video.poster_path}`}
-            >
-              <h3>{isMovie ? video.title : video.name}</h3>
-            </Poster>
-          </Link>
+            <h3>{isMovie ? video.title : video.name}</h3>
+          </GotoMovie>
         ))}
       </SeriesContainer>
     )
