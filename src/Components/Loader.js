@@ -13,23 +13,27 @@ const Container = styled.div`
 `;
 
 export default () => {
-  const [text, setText] = useState("LOADING");
+  const [ellipsis, setellipsis] = useState("");
   useEffect(() => {
-    let time = 0;
-    setInterval(() => {
-      if (time >= 3) {
-        setText("LOADING");
-        time = 0;
+    const ellipsisIncreaser = setInterval(() => {
+      if (ellipsis.length > 3) {
+        setellipsis("");
       } else {
-        setText((text) => text + ".");
-        time++;
+        setellipsis(ellipsis + ".");
       }
     }, 200);
-  }, []);
+    function cleanup() {
+      clearInterval(ellipsisIncreaser);
+    }
+    return cleanup;
+  });
 
   return (
     <Container>
-      <span>{text}</span>
+      <span>
+        LOADING
+        {ellipsis}
+      </span>
     </Container>
   );
 };

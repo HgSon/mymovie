@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Section from "Components/Section";
@@ -16,8 +16,8 @@ const HomePresenter = ({
   popular,
   loading,
   error,
-}) =>
-  loading ? (
+}) => {
+  return loading ? (
     <Loader />
   ) : (
     <Container>
@@ -48,6 +48,7 @@ const HomePresenter = ({
       {error && <Message text={error} color="#e74c3c" />}
     </Container>
   );
+};
 
 HomePresenter.propTypes = {
   nowPlaying: PropTypes.array,

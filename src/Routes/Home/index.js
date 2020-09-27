@@ -1,61 +1,18 @@
-import HomePresenter from "./HomePresenter";
-import React from "react";
-import { movieApi } from "api";
+import Header from "../../Components/Header";
+import HomeContainer from "./homeContainer";
+import React, { useRef, useState, useEffect } from "react";
 
-class HomeContainer extends React.Component {
-  state = {
-    nowPlaying: null,
-    upcoming: null,
-    popular: null,
-    loading: true,
-    error: null,
-    genreList: null,
+function Home() {
+  const [sortBy, setSortby] = useState(null);
+  const changeSortby = (sortby) => {
+    setSortby(sortby);
   };
-  async componentDidMount() {
-    try {
-      const {
-        data: { results: nowPlaying },
-      } = await movieApi.nowPlaying();
-      const {
-        data: { results: upcoming },
-      } = await movieApi.upcoming();
-      const {
-        data: { results: popular },
-      } = await movieApi.popular();
-      const {
-        data: { genres },
-      } = await movieApi.movieGenres();
-      let genreList = {};
-      genres.forEach((v) => {
-        genreList[v.id] = v.name;
-      });
-      this.setState({ nowPlaying, upcoming, popular, genreList });
-    } catch (error) {
-      this.setState({ error: `${error}` });
-    } finally {
-      this.setState({ loading: false });
-    }
-  }
-  render() {
-    const {
-      nowPlaying,
-      upcoming,
-      popular,
-      loading,
-      error,
-      genreList,
-    } = this.state;
-    return (
-      <HomePresenter
-        genreList={genreList}
-        nowPlaying={nowPlaying}
-        upcoming={upcoming}
-        popular={popular}
-        loading={loading}
-        error={error}
-      />
-    );
-  }
+  return (
+    <>
+      <Header changeSortby={changeSortby} />
+      <HomeContainer sortBy={sortBy} />
+    </>
+  );
 }
 
-export default HomeContainer;
+export default Home;

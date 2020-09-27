@@ -23,82 +23,28 @@ const TvPresenter = ({
   ) : (
     <Container>
       {topRated && topRated.length > 0 && (
-        <Section title="Top Rated">
-          {topRated.map((show) => {
-            const {
-              id,
-              poster_path,
-              name,
-              vote_average,
-              first_air_date,
-              genre_ids,
-            } = show;
-            return (
-              <Poster
-                genreIds={genre_ids}
-                genreList={genreList}
-                key={id}
-                id={id}
-                imageUrl={poster_path}
-                title={name}
-                rating={vote_average}
-                year={first_air_date && first_air_date.substring(0, 4)}
-              />
-            );
-          })}
-        </Section>
+        <Section
+          title="Top Rated"
+          id="showTopRated"
+          content={topRated}
+          genreList={genreList}
+        />
       )}
       {popular && popular.length > 0 && (
-        <Section title="Popular">
-          {popular.map((show) => {
-            const {
-              id,
-              poster_path,
-              name,
-              vote_average,
-              genre_ids,
-              first_air_date,
-            } = show;
-            return (
-              <Poster
-                genreIds={genre_ids}
-                genreList={genreList}
-                key={id}
-                id={id}
-                imageUrl={poster_path}
-                title={name}
-                rating={vote_average}
-                year={first_air_date && first_air_date.substring(0, 4)}
-              />
-            );
-          })}
-        </Section>
+        <Section
+          title="Popular"
+          id="showPopular"
+          content={popular}
+          genreList={genreList}
+        />
       )}
       {airingToday && airingToday.length > 0 && (
-        <Section title="Airing Today">
-          {airingToday.map((show) => {
-            const {
-              genre_ids,
-              id,
-              poster_path,
-              name,
-              vote_average,
-              first_air_date,
-            } = show;
-            return (
-              <Poster
-                genreIds={genre_ids}
-                genreList={genreList}
-                key={id}
-                id={id}
-                imageUrl={poster_path}
-                title={name}
-                rating={vote_average}
-                year={first_air_date && first_air_date.substring(0, 4)}
-              />
-            );
-          })}
-        </Section>
+        <Section
+          title="Airing Today"
+          id="showAiringToday"
+          content={airingToday}
+          genreList={genreList}
+        />
       )}
       {error && <Message text={error} color="#e74c3c" />}
     </Container>

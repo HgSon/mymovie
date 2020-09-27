@@ -24,13 +24,14 @@ const Grid = styled.div`
 const Section = ({ title, content, genreList, id }) => (
   <SectionBox title={title} id={id}>
     {content.map((movie) => {
-      console.log(content);
       const {
         id,
         poster_path,
         title,
+        name,
         vote_average,
         release_date,
+        first_air_date,
         genre_ids,
       } = movie;
       return (
@@ -38,9 +39,12 @@ const Section = ({ title, content, genreList, id }) => (
           key={id}
           id={id}
           imageUrl={poster_path}
-          title={title}
+          title={title || name}
           rating={vote_average}
-          year={release_date && release_date.substring(0, 4)}
+          year={
+            (release_date && release_date.substring(0, 4)) ||
+            (first_air_date && first_air_date.substring(0, 4))
+          }
           isMovie={true}
           genreIds={genre_ids}
           genreList={genreList}
@@ -61,7 +65,7 @@ Section.propTypes = {
   title: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   content: PropTypes.array.isRequired,
-  genreList: PropTypes.array,
+  genreList: PropTypes.object,
 };
 
 SectionBox.propTypes = {

@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
-import SortBy from "Components/SortBy";
+import Lnb from "./lnb";
+import Sorter from "./sort";
 
 const Header = styled.header`
   color: white;
@@ -20,21 +21,14 @@ const Header = styled.header`
 const List = styled.ul`
   display: flex;
 `;
-const SubList = styled.ul`
-  width: 240px;
-  height: 40px;
-  display: flex;
-  position: absolute;
-  top: -99999999px;
-  left: 10px;
-`;
+
 const Item = styled.li`
   width: 80px;
   height: 50px;
   text-align: center;
   background: ${(props) => (props.current ? "#c0392b" : "transparent")};
   transition: background 0.4s ease-in-out;
-  &:hover ${SubList} {
+  &:hover ul {
     top: ${(props) => (props.current ? "50px" : "-99999999px")};
   }
 `;
@@ -45,49 +39,23 @@ const SLink = styled(Link)`
   justify-content: center;
 `;
 
-const SubItem = styled.li`
-  width: 80px;
-  height: 100%;
-  line-height: 22px;
-  text-align: center;
-`;
-
-const HeaderC = ({ location: { pathname } }) => {
+const HeaderC = ({ location: { pathname }, changeSortby }) => {
   return (
     <Header>
       <List>
         <Item current={pathname === "/"}>
           <SLink to="/">Movie</SLink>
-          <SubList>
-            <SubItem>
-              <Link to="#movieNowplaying">Now Playing</Link>
-            </SubItem>
-            <SubItem>
-              <Link to="#movieUpcoming">Upcoming</Link>
-            </SubItem>
-            <SubItem>
-              <Link to="#">Popular</Link>
-            </SubItem>
-          </SubList>
+          <Lnb items={["Now Playing", "movieUpcoming", "moviePopular"]} />
         </Item>
         <Item current={pathname === "/tv"}>
           <SLink to="/tv">TV</SLink>
-          <SubList>
-            <SubItem>
-              <Link to="#">Top Rated</Link>
-            </SubItem>
-            <SubItem>
-              <Link to="#">Popular</Link>
-            </SubItem>
-            <SubItem>
-              <Link to="#">Airing Today</Link>
-            </SubItem>
-          </SubList>
+          <Lnb items={["showTopRated", "showPopular", "showAiringToday"]} />
         </Item>
         <Item current={pathname === "/search"}>
           <SLink to="/search">Search</SLink>
         </Item>
       </List>
+      {changeSortby && <Sorter changeSortby={changeSortby} />}
     </Header>
   );
 };

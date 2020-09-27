@@ -1,11 +1,11 @@
-import TvPresenter from "./TvPresenter";
+import HomePresenter from "./homePresenter";
 import React from "react";
-import { tvApi } from "api";
+import { movieApi } from "api";
 
-class TvContainer extends React.Component {
+class HomeContainer extends React.Component {
   state = {
-    topRated: null,
-    airingToday: null,
+    nowPlaying: null,
+    upcoming: null,
     popular: null,
     loading: true,
     error: null,
@@ -15,20 +15,22 @@ class TvContainer extends React.Component {
   async componentDidMount() {
     try {
       const {
-        data: { results: topRated },
-      } = await tvApi.topRated();
+        data: { results: nowPlaying },
+      } = await movieApi.nowPlaying();
       const {
-        data: { results: airingToday },
-      } = await tvApi.airingToday();
+        data: { results: upcoming },
+      } = await movieApi.upcoming();
       const {
         data: { results: popular },
-      } = await tvApi.popular();
+      } = await movieApi.popular();
       const {
         data: { genres },
-      } = await tvApi.showGenres();
+      } = await movieApi.movieGenres();
       let genreList = {};
-      genres.forEach((v) => (genreList[v.id] = v.name));
-      this.setState({ genreList, topRated, airingToday, popular });
+      genres.forEach((v) => {
+        genreList[v.id] = v.name;
+      });
+      this.setState({ nowPlaying, upcoming, popular, genreList });
     } catch (error) {
       this.setState({ error: `${error}` });
     } finally {
@@ -43,14 +45,14 @@ class TvContainer extends React.Component {
     if (!sortBy) return;
     if (sortBy === "default") return this.setState({ sortBy });
 
-    const { topRated, airingToday, popular } = this.state;
-    const copiedTopRated = topRated.slice();
-    const copiedAiringToday = airingToday.slice();
+    const { nowPlaying, upcoming, popular } = this.state;
+    const copiedNowplaying = nowPlaying.slice();
+    const copiedUpcoming = upcoming.slice();
     const copiedPopular = popular.slice();
     const sortLatest = (a, b) =>
-      Date.parse(b["first_air_date"]) - Date.parse(a["first_air_date"]);
+      Date.parse(b["release_date"]) - Date.parse(a["release_date"]);
     const sortOldest = (a, b) =>
-      Date.parse(a["first_air_date"]) - Date.parse(b["first_air_date"]);
+      Date.parse(a["release_date"]) - Date.parse(b["release_date"]);
     const sortHigh = (a, b) => b["vote_average"] - a["vote_average"];
     const sortLow = (a, b) => a["vote_average"] - b["vote_average"];
     const sortMorePopular = (a, b) => b["popularity"] - a["popularity"];
@@ -78,30 +80,30 @@ class TvContainer extends React.Component {
       default:
         fn = () => false;
     }
-    const sortedTopRated = copiedTopRated.sort(fn);
-    const sortedAiringToday = copiedAiringToday.sort(fn);
+    const sortedNowplaying = copiedNowplaying.sort(fn);
+    const sortedUpcoming = copiedUpcoming.sort(fn);
     const sortedPopular = copiedPopular.sort(fn);
     this.setState({
-      topRated: sortedTopRated,
-      airingToday: sortedAiringToday,
+      nowPlaying: sortedNowplaying,
+      upcoming: sortedUpcoming,
       popular: sortedPopular,
       sortBy,
     });
   }
   render() {
     const {
-      genreList,
-      topRated,
-      airingToday,
+      nowPlaying,
+      upcoming,
       popular,
       loading,
       error,
+      genreList,
     } = this.state;
     return (
-      <TvPresenter
+      <HomePresenter
         genreList={genreList}
-        topRated={topRated}
-        airingToday={airingToday}
+        nowPlaying={nowPlaying}
+        upcoming={upcoming}
         popular={popular}
         loading={loading}
         error={error}
@@ -110,4 +112,4 @@ class TvContainer extends React.Component {
   }
 }
 
-export default TvContainer;
+export default HomeContainer;

@@ -43,7 +43,7 @@ const SearchPresenter = ({
       <Loader />
     ) : (
       <>
-        {movieResults && movieResults.length > 0 && (
+        {/* {movieResults && movieResults.length > 0 && (
           <Section title="Movie Results">
             {movieResults.map((movie) => {
               const {
@@ -95,7 +95,7 @@ const SearchPresenter = ({
               );
             })}
           </Section>
-        )}
+        )} */}
         {tvResults &&
           movieResults &&
           tvResults.length === 0 &&
