@@ -4,98 +4,39 @@ import PropTypes from "prop-types";
 import Loader from "Components/Loader";
 import Section from "Components/Section";
 import Message from "Components/Message";
-import Poster from "Components/Poster";
-
-const Container = styled.div`
-  padding: 0 10px;
-`;
-const Form = styled.form`
-  margin-bottom: 50px;
-  width: 100%;
-`;
-const Input = styled.input`
-  all: unset;
-  font-size: 18px;
-  width: 100%;
-`;
 
 const SearchPresenter = ({
   movieResults,
   tvResults,
   loading,
   error,
-  searchTerm,
-  handleSubmit,
-  updateTerm,
   staticTerm,
-  movieGenresList,
-  showGenresList,
-}) => (
-  <Container>
-    <Form onSubmit={handleSubmit}>
-      <Input
-        placeholder="Search Movies or TV Shows..."
-        value={searchTerm}
-        onChange={updateTerm}
-      />
-    </Form>
+  genresMovie,
+  genresShow,
+}) => {
+  
+  let movieGenresListforSection = {};
+  let showGenresListforSection = {};
+  if(genresMovie && genresShow){
+genresMovie.forEach((movie) => {
+  movieGenresListforSection[movie["id"]] = movie["name"]
+});
+genresShow.forEach((show) => {
+  showGenresListforSection[show["id"]] =  show["name"]
+})
+  }
+  return (
+  <main>    
     {loading ? (
       <Loader />
     ) : (
       <>
-        {/* {movieResults && movieResults.length > 0 && (
-          <Section title="Movie Results">
-            {movieResults.map((movie) => {
-              const {
-                id,
-                poster_path,
-                title,
-                vote_average,
-                release_date,
-                genre_ids,
-              } = movie;
-              return (
-                <Poster
-                  key={id}
-                  id={id}
-                  imageUrl={poster_path}
-                  title={title}
-                  rating={vote_average}
-                  year={release_date && release_date.substring(0, 4)}
-                  isMovie={true}
-                  genreIds={genre_ids}
-                  genreList={movieGenresList}
-                />
-              );
-            })}
-          </Section>
+        {movieResults && movieResults.length > 0 && (
+          <Section title="Movie Results" content={movieResults} genreList={movieGenresListforSection} id="movieResults"/>
         )}
         {tvResults && tvResults.length > 0 && (
-          <Section title="TV Show Results">
-            {tvResults.map((show) => {
-              const {
-                id,
-                poster_path,
-                name,
-                vote_average,
-                first_air_date,
-                genre_ids,
-              } = show;
-              return (
-                <Poster
-                  key={id}
-                  id={id}
-                  imageUrl={poster_path}
-                  title={name}
-                  rating={vote_average}
-                  year={first_air_date && first_air_date.substring(0, 4)}
-                  genreIds={genre_ids}
-                  genreList={showGenresList}
-                />
-              );
-            })}
-          </Section>
-        )} */}
+          <Section title="TV Show Results" content={tvResults} genreList={showGenresListforSection} id="tvShowResults"/>
+        )}
         {tvResults &&
           movieResults &&
           tvResults.length === 0 &&
@@ -108,8 +49,9 @@ const SearchPresenter = ({
         {error && <Message text={error} color="#e74c3c" />}
       </>
     )}
-  </Container>
-);
+  </main>
+)
+};
 
 SearchPresenter.propTypes = {
   movieResults: PropTypes.array,
@@ -120,8 +62,8 @@ SearchPresenter.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   updateTerm: PropTypes.func.isRequired,
   staticTerm: PropTypes.string,
-  movieGenresList: PropTypes.object,
-  showGenresList: PropTypes.object,
+  genresMovie: PropTypes.array,
+  genresShow: PropTypes.array,
 };
 
 export default SearchPresenter;
