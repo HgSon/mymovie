@@ -1,5 +1,5 @@
-import Header from "../../Components/Header";
-import HomeContainer from "./homeContainer";
+import Header from "../../components/Header";
+import HomeContainer from "./HomeContainer";
 import React, { useRef, useState, useEffect } from "react";
 
 function Home() {

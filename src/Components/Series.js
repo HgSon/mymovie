@@ -1,13 +1,36 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { movieApi } from "../api";
+import { movieApi, tvApi } from "../api";
 import { Link } from "react-router-dom";
-
+import Poster from "./Poster";
+import Section from "./Section";
 const SeriesContainer = styled.div``;
 const GotoMovie = styled.div``;
 
 const Series = ({ isMovie, collection }) => {
+  const [genreList, setGenreList] = useState(null);
+
+  useEffect(() => {
+    const getGenres = async () => {
+      let genres;
+      if (isMovie) {
+        ({
+          data: { genres },
+        } = await movieApi.movieGenres());
+      } else {
+        ({
+          data: { genres },
+        } = await tvApi.showGenres());
+      }
+      let genreObj = {};
+      genres.forEach((v) => {
+        genreObj[v.id] = v.name;
+      });
+      setGenreList(genreObj);
+    };
+    getGenres();
+  }, [isMovie]);
   const [series, setSeries] = useState(null);
   useEffect(() => {
     const getCollection = async () => {
@@ -20,18 +43,11 @@ const Series = ({ isMovie, collection }) => {
       setSeries(parts);
     };
     getCollection();
-  }, []);
+  }, [collection, isMovie]);
   return (
-    series && (
-      <SeriesContainer>
-        {series.map((video) => (
-          <GotoMovie
-            bgUrl={`https://image.tmdb.org/t/p/w300${video.poster_path}`}
-          >
-            <h3>{isMovie ? video.title : video.name}</h3>
-          </GotoMovie>
-        ))}
-      </SeriesContainer>
+    series &&
+    series.length > 0 && (
+      <Section title="Series" content={series} genreList={genreList} id="_" />
     )
   );
 };

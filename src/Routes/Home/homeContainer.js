@@ -1,4 +1,4 @@
-import HomePresenter from "./homePresenter";
+import HomePresenter from "./HomePresenter";
 import React from "react";
 import { movieApi } from "api";
 

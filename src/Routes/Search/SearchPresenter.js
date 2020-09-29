@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import Loader from "Components/Loader";
-import Section from "Components/Section";
-import Message from "Components/Message";
+import Loader from "components/Loader";
+import Section from "components/Section";
+import Message from "components/Message";
 
 const SearchPresenter = ({
   error,
@@ -57,12 +57,10 @@ SearchPresenter.propTypes = {
   tvResults: PropTypes.array,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string,
-  searchTerm: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
-  updateTerm: PropTypes.func.isRequired,
+  // searchTerm: PropTypes.string,
+  // handleSubmit: PropTypes.func.isRequired,
+  // updateTerm: PropTypes.func.isRequired,
   staticTerm: PropTypes.string,
-  genresMovie: PropTypes.array,
-  genresShow: PropTypes.array,
 };
 
 export default SearchPresenter;

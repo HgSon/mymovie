@@ -1,7 +1,6 @@
-import Header from "../../Components/Header";
+import Header from "../../components/Header";
 import TvContainer from "./TvContainer";
 import React, { useState } from "react";
-export default TV;
 
 function TV() {
   const [sortBy, setSortby] = useState(null);
@@ -15,3 +14,4 @@ function TV() {
     </>
   );
 }
+export default TV;

@@ -1,7 +1,7 @@
 import SearchPresenter from "./SearchPresenter";
 import React from "react";
 import { movieApi, tvApi } from "api";
-import SearchBar from "./searchBar";
+import SearchBar from "./SearchBar";
 import styled from "styled-components";
 const Container = styled.div`
   padding: 0 10px;
@@ -41,30 +41,28 @@ export default class extends React.Component {
     genresShow.forEach((show) => {
       showGenres[show["id"]] = show["name"];
     });
-    this.setState({ movieGenres, showGenres });
+    this.setState({
+      movieGenres,
+      showGenres,
+      selectedMvGenres: Object.assign({}, movieGenres),
+      selectedTVGenres: Object.assign({}, showGenres),
+    });
   }
   handleChecked = (event) => {
-    console.log(!event.target.checked);
-    const { movieGenres, showGenres } = this.state;
     const { checked, value, name } = event.target;
-    let selectedMGenres = Object.assign({}, movieGenres);
-    let selectedTVGenres = Object.assign({}, showGenres);
+    let selectedMvGenres, selectedTVGenres;
+    ({ selectedMvGenres, selectedTVGenres } = this.state);
     if (name === "movieGenres") {
       checked
-        ? (selectedMGenres[value] = event.target.innerHTML)
-        : delete selectedMGenres[value];
+        ? (selectedMvGenres[value] = event.target.parentNode.innerText)
+        : delete selectedMvGenres[value];
     }
     if (name === "showGenres") {
       checked
-        ? (selectedTVGenres[value] = event.target.innerHTML)
+        ? (selectedTVGenres[value] = event.target.parentNode.innerText)
         : delete selectedTVGenres[value];
     }
-    this.setState({
-      movieGenres: selectedMGenres,
-      showGenres: selectedTVGenres,
-    });
-    //여기 켰다껐다할때마다 연산너무안늦은지 확인
-    //어차피 submit해야 화면변하니까 상관없나?
+    this.setState({ selectedMvGenres, selectedTVGenres });
   };
   handleReleaseDate = (event) => {
     const {
@@ -80,16 +78,101 @@ export default class extends React.Component {
     if (searchTerm !== "") this.searchByTerm();
   };
   searchByTerm = async () => {
-    const { searchTerm, advancedSearch } = this.state;
+    const {
+      searchTerm,
+      advancedSearch,
+      movieOrShow,
+      dateFrom,
+      dateTo,
+      selectedMvGenres,
+      selectedTVGenres,
+    } = this.state;
     this.setState({ loading: true });
     this.setState({ staticTerm: searchTerm });
+    let tvResults;
+    let movieResults;
     try {
-      const {
+      ({
         data: { results: movieResults },
-      } = await movieApi.search(searchTerm);
-      const {
+      } = await movieApi.search(searchTerm));
+      ({
         data: { results: tvResults },
-      } = await tvApi.search(searchTerm);
+      } = await tvApi.search(searchTerm));
+      if (advancedSearch) {
+        if (movieOrShow === "movie") {
+          tvResults = [];
+        } else if (movieOrShow === "tvshow") {
+          movieResults = [];
+        }
+        if (movieResults.length) {
+          if (dateTo) {
+            movieResults = movieResults.filter(
+              (movie) =>
+                movie["release_date"] &&
+                parseInt(movie["release_date"].substring(0, 4)) <= dateTo
+            );
+          }
+          if (dateFrom) {
+            movieResults = movieResults.filter(
+              (movie) =>
+                movie["release_date"] &&
+                parseInt(movie["release_date"].substring(0, 4)) >= dateFrom
+            );
+          }
+          if (selectedMvGenres) {
+            let selectedList = [];
+            let leftList = movieResults.slice();
+            for (const prop in selectedMvGenres) {
+              let genreList = leftList.filter(
+                (movie) =>
+                  movie["genre_ids"] &&
+                  movie["genre_ids"].includes(Number(prop))
+              );
+              leftList = leftList.filter(
+                (movie) =>
+                  !movie["genre_ids"] ||
+                  !movie["genre_ids"].includes(Number(prop))
+              );
+              selectedList = [...selectedList, ...genreList];
+              console.log(selectedList, leftList);
+            }
+            movieResults = selectedList;
+          }
+        }
+        if (tvResults.length) {
+          if (dateTo) {
+            tvResults = tvResults.filter(
+              (show) =>
+                show["first_air_date"] &&
+                parseInt(show["first_air_date"].substring(0, 4)) <= dateTo
+            );
+          }
+          if (dateFrom) {
+            tvResults = tvResults.filter(
+              (show) =>
+                show["first_air_date"] &&
+                parseInt(show["first_air_date"].substring(0, 4)) >= dateFrom
+            );
+          }
+          if (selectedTVGenres) {
+            let selectedList = [];
+            let leftList = tvResults.slice();
+            for (const prop in selectedTVGenres) {
+              let genreList = leftList.filter(
+                (show) =>
+                  show["genre_ids"] && show["genre_ids"].includes(Number(prop))
+              );
+              leftList = leftList.filter(
+                (show) =>
+                  !show["genre_ids"] ||
+                  !show["genre_ids"].includes(Number(prop))
+              );
+              selectedList = [...selectedList, ...genreList];
+            }
+            tvResults = selectedList;
+          }
+        }
+      }
       this.setState({
         movieResults,
         tvResults,
@@ -120,8 +203,6 @@ export default class extends React.Component {
       error,
       searchTerm,
       staticTerm,
-      genresShow,
-      genresMovie,
       advancedSearch,
       showGenres,
       movieGenres,
@@ -131,14 +212,14 @@ export default class extends React.Component {
         <SearchBar
           advancedSearch={advancedSearch}
           changeSearchMode={this.changeSearchMode}
-          movieGenres={movieGenres}
-          showGenres={showGenres}
           handleChecked={this.handleChecked}
           handleMovieOrShow={this.handleMovieOrShow}
           handleReleaseDate={this.handleReleaseDate}
           handleSubmit={this.handleSubmit}
           searchTerm={searchTerm}
           updateTerm={this.updateTerm}
+          movieGenres={movieGenres}
+          showGenres={showGenres}
         />
         <SearchPresenter
           error={error}

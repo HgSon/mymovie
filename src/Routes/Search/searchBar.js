@@ -32,26 +32,26 @@ const SearchBar = ({
           <input
             type="checkbox"
             name="movieGenres"
-            value={PropTypes}
+            value={prop}
             defaultChecked
             onChange={handleChecked}
           />
         </label>
       );
-      for (let prop in showGenres) {
-        showGenresList.push(
-          <label key={prop}>
-            {showGenres[prop]}
-            <input
-              type="checkbox"
-              name="showGenres"
-              value={prop}
-              defaultChecked
-              onChange={handleChecked}
-            />
-          </label>
-        );
-      }
+    }
+    for (let prop in showGenres) {
+      showGenresList.push(
+        <label key={prop}>
+          {showGenres[prop]}
+          <input
+            type="checkbox"
+            name="showGenres"
+            value={prop}
+            defaultChecked
+            onChange={handleChecked}
+          />
+        </label>
+      );
     }
   }
   return (
@@ -65,7 +65,7 @@ const SearchBar = ({
         <input type="submit" value="search" />
       </Form>
       <button onClick={changeSearchMode}>
-        {advancedSearch ? "Advanced Search" : "Back to Basic"}
+        {advancedSearch ? "Back to Basic" : "Advanced Search"}
       </button>
       {advancedSearch && (
         <div>
@@ -92,10 +92,14 @@ const SearchBar = ({
               onChange={handleReleaseDate}
             />
           </label>
-          <h3>Movie</h3>
-          {movieGenresList}
-          <h3>TV Show</h3>
-          {showGenresList}
+          <div>
+            <h3>Movie</h3>
+            {movieGenresList}
+          </div>
+          <div>
+            <h3>TV Show</h3>
+            {showGenresList}
+          </div>
         </div>
       )}
     </div>

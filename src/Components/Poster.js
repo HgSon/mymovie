@@ -75,8 +75,9 @@ const Poster = ({
   year,
   genreIds,
   genreList,
-  isMovie = false,
+  isMovie,
 }) => {
+  console.log(id);
   const genres = genreIds ? genreIds.map((v) => genreList[v]) : null;
   return (
     <Link to={isMovie ? `/movie/${id}` : `/show/${id}`}>
@@ -98,7 +99,7 @@ const Poster = ({
           bgUrl={
             imageUrl
               ? `https://image.tmdb.org/t/p/w300${imageUrl}`
-              : require("../Assets/img/noImg.PNG")
+              : require("../assets/img/noImg.PNG")
           }
         />
         <RatingContainer>

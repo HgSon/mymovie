@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
-import Lnb from "./lnb";
-import Sorter from "./sort";
+import Sorter from "./Sorter";
 
 const Header = styled.header`
   color: white;
@@ -45,11 +44,11 @@ const HeaderC = ({ location: { pathname }, changeSortby }) => {
       <List>
         <Item current={pathname === "/"}>
           <SLink to="/">Movie</SLink>
-          <Lnb items={["Now Playing", "movieUpcoming", "moviePopular"]} />
+          {/* <Lnb items={["Now Playing", "movieUpcoming", "moviePopular"]} /> */}
         </Item>
         <Item current={pathname === "/tv"}>
           <SLink to="/tv">TV</SLink>
-          <Lnb items={["showTopRated", "showPopular", "showAiringToday"]} />
+          {/* <Lnb items={["showTopRated", "showPopular", "showAiringToday"]} /> */}
         </Item>
         <Item current={pathname === "/search"}>
           <SLink to="/search">Search</SLink>

@@ -34,6 +34,7 @@ const Section = ({ title, content, genreList, id }) => (
         first_air_date,
         genre_ids,
       } = movie;
+      const isMovie = !!title;
       return (
         <Poster
           key={id}
@@ -45,7 +46,7 @@ const Section = ({ title, content, genreList, id }) => (
             (release_date && release_date.substring(0, 4)) ||
             (first_air_date && first_air_date.substring(0, 4))
           }
-          isMovie={true}
+          isMovie={isMovie}
           genreIds={genre_ids}
           genreList={genreList}
         />

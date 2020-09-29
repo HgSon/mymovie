@@ -5,16 +5,16 @@ import {
   Switch,
 } from "react-router-dom";
 import React from "react";
-import Home from "Routes/Home";
-import TV from "Routes/TV";
-import Detail from "Routes/Detail";
-import Search from "Routes/Search";
+import Home from "routes/home";
+import tv from "routes/tv";
+import Detail from "routes/detail";
+import Search from "routes/search";
 
 export default () => (
   <Router>
     <Switch>
       <Route path="/" exact component={Home} />
-      <Route path="/tv" component={TV} />
+      <Route path="/tv" component={tv} />
       <Route path="/search" component={Search} />
       <Route path="/movie/:id" component={Detail} />
       <Route path="/show/:id" component={Detail} />

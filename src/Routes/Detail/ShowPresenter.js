@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import Loader from "Components/Loader";
-import Message from "Components/Message";
+import Loader from "components/Loader";
+import Message from "components/Message";
 
 const ShowPresenter = ({ result, loading, error }) => {
   if (loading) return <Loader />;

@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import Loader from "Components/Loader";
-import Message from "Components/Message";
-import Series from "Components/Series";
+import Loader from "components/Loader";
+import Message from "components/Message";
+import Series from "components/Series";
 
 const Container = styled.div``;
 const Image = styled.div``;
